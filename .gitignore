@@ -1,0 +1,14 @@
+# Dependencias
+node_modules/
+
+# Variables privadas
+.env
+backend/.env
+
+# Archivos de Angular
+.angular/
+dist/
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
