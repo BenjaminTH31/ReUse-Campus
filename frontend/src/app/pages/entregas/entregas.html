@@ -1,0 +1,46 @@
+<section class="contenedor">
+  <h1>Mis entregas</h1>
+  <p>Revisa los acuerdos de entrega de tus publicaciones y solicitudes.</p>
+
+  @if (mensaje) {
+    <p class="mensaje">{{ mensaje }}</p>
+  }
+
+  @if (error) {
+    <p class="error">{{ error }}</p>
+  }
+
+  @if (cargando) {
+    <p>Cargando entregas...</p>
+  } @else if (entregas.length === 0) {
+    <p>Todavía no tienes entregas registradas.</p>
+  } @else {
+    @for (entrega of entregas; track entrega.id) {
+      <article class="tarjeta">
+        <h2>{{ entrega.titulo }}</h2>
+
+        <p><strong>Propietario:</strong> {{ entrega.propietario }}</p>
+        <p><strong>Receptor:</strong> {{ entrega.receptor }}</p>
+
+        <p><strong>Fecha del acuerdo:</strong>
+          {{ entrega.fechaAcuerdo | date:'dd/MM/yyyy HH:mm' }}
+        </p>
+
+        <p><strong>Estado:</strong> {{ entrega.estado }}</p>
+
+        @if (entrega.fechaEntrega) {
+          <p><strong>Fecha de entrega:</strong>
+            {{ entrega.fechaEntrega | date:'dd/MM/yyyy HH:mm' }}
+          </p>
+        }
+
+        @if (entrega.estado === 'PENDIENTE' && esParticipante(entrega)) {
+          <button class="boton"
+            (click)="completar(entrega.id)">
+            Marcar como completada
+          </button>
+        }
+      </article>
+    }
+  }
+</section>

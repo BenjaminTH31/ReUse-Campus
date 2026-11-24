@@ -1,35 +1,136 @@
-
 <section class="catalogo">
-  <div class="catalogo-encabezado">
-    <span class="etiqueta">REUTILIZA Y COMPARTE</span>
+  <div class="encabezado">
     <h1>Publicaciones</h1>
-    <p>Encuentra productos compartidos por nuestra comunidad.</p>
+    <p>Encuentra, comparte y reutiliza productos de la comunidad.</p>
+
+    @if (usuarioActual) {
+      <button class="boton" (click)="abrirFormulario()">
+        + Crear publicación
+      </button>
+    } @else {
+      <p>Inicia sesión para publicar o solicitar productos.</p>
+    }
   </div>
 
+  @if (mensaje) {
+    <div class="mensaje">{{ mensaje }}</div>
+  }
+
+  @if (error) {
+    <div class="error">{{ error }}</div>
+  }
+
+  @if (mostrarFormulario) {
+    <div class="formulario">
+      <h2>{{ editandoId ? 'Editar publicación' : 'Nueva publicación' }}</h2>
+
+      <form (ngSubmit)="guardarPublicacion()">
+        <label>Título</label>
+        <input name="titulo" [(ngModel)]="formulario.titulo" required>
+
+        <label>Descripción</label>
+        <textarea name="descripcion"
+          [(ngModel)]="formulario.descripcion" required></textarea>
+
+        <label>Categoría</label>
+        <input name="categoria"
+          [(ngModel)]="formulario.categoria" required>
+
+        <label>Modalidad</label>
+        <select name="modalidad"
+          [(ngModel)]="formulario.modalidad" required>
+          <option value="">Selecciona una modalidad</option>
+          <option value="DONACION">Donación</option>
+          <option value="INTERCAMBIO">Intercambio</option>
+        </select>
+
+        <button class="boton" type="submit">Guardar</button>
+        <button class="boton secundario" type="button"
+          (click)="mostrarFormulario = false">Cerrar</button>
+      </form>
+    </div>
+  }
+
+  @if (publicacionSeleccionada) {
+    <div class="panel">
+      @if (esPropietario(publicacionSeleccionada)) {
+        <h2>Solicitudes recibidas</h2>
+        <p>Publicación: {{ publicacionSeleccionada.titulo }}</p>
+
+        @if (cargandoSolicitudes) {
+          <p>Cargando solicitudes...</p>
+        } @else if (solicitudesRecibidas.length === 0) {
+          <p>No hay solicitudes para esta publicación.</p>
+        }
+
+        @for (solicitud of solicitudesRecibidas; track solicitud.id) {
+          <article class="tarjeta">
+            <strong>{{ solicitud.solicitante || 'Solicitante' }}</strong>
+            <p>{{ solicitud.mensaje }}</p>
+            <p>Estado: {{ solicitud.estado }}</p>
+
+            @if (solicitud.estado === 'PENDIENTE') {
+              <button class="boton"
+                (click)="aceptar(solicitud.id)">Aceptar</button>
+              <button class="boton peligro"
+                (click)="rechazar(solicitud.id)">Rechazar</button>
+            }
+          </article>
+        }
+      } @else {
+        <h2>Solicitar publicación</h2>
+        <p>{{ publicacionSeleccionada.titulo }}</p>
+
+        <form (ngSubmit)="enviarSolicitud()">
+          <label>Mensaje para el propietario</label>
+          <textarea name="mensaje"
+            [(ngModel)]="mensajeSolicitud"
+            placeholder="Escribe un mensaje..."
+            required></textarea>
+          <button class="boton" type="submit"
+            [disabled]="enviandoSolicitud">
+            {{ enviandoSolicitud ? 'Enviando...' : 'Enviar solicitud' }}
+          </button>
+        </form>
+      }
+
+      <button class="boton secundario"
+        (click)="cerrarPanel()">Cerrar</button>
+    </div>
+  }
+
   @if (cargando) {
-    <p class="estado-mensaje">Cargando publicaciones...</p>
-  } @else if (error) {
-    <div class="mensaje-error">{{ error }}</div>
-    <button class="btn-principal" (click)="cargarPublicaciones()">
-      Reintentar
-    </button>
+    <p>Cargando publicaciones...</p>
   } @else if (publicaciones.length === 0) {
-    <p class="estado-mensaje">Todavía no hay publicaciones disponibles.</p>
+    <p>Todavía no hay publicaciones.</p>
   } @else {
-    <div class="publicaciones-grid">
+    <div class="grid">
       @for (publicacion of publicaciones; track publicacion.id) {
-        <article class="tarjeta-publicacion">
-          <span class="estado">{{ publicacion.estado }}</span>
-
-          <span class="categoria">{{ publicacion.categoria }}</span>
-
+        <article class="tarjeta">
+          <span>{{ publicacion.estado }}</span>
           <h2>{{ publicacion.titulo }}</h2>
-
           <p>{{ publicacion.descripcion }}</p>
+          <p><strong>Categoría:</strong> {{ publicacion.categoria }}</p>
+          <p><strong>Modalidad:</strong> {{ publicacion.modalidad }}</p>
+          <p><strong>Publicado por:</strong> {{ publicacion.propietario }}</p>
 
-          <div class="datos-publicacion">
-            <span>Modalidad: {{ publicacion.modalidad }}</span>
-            <span>Publicado por: {{ publicacion.propietario }}</span>
+          <div class="acciones">
+            @if (esPropietario(publicacion)) {
+              @if (publicacion.estado === 'DISPONIBLE') {
+                <button class="boton secundario"
+                  (click)="editar(publicacion)">Editar</button>
+                <button class="boton peligro"
+                  (click)="cancelarPublicacion(publicacion)">Cancelar</button>
+              }
+
+              <button class="boton"
+                (click)="verSolicitudes(publicacion)">
+                Ver solicitudes
+              </button>
+            } @else if (usuarioActual && publicacion.estado === 'DISPONIBLE') {
+              <button class="boton"
+                (click)="solicitar(publicacion)">Solicitar</button>
+            }
           </div>
         </article>
       }

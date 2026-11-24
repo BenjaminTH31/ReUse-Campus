@@ -1,4 +1,3 @@
-
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -15,6 +14,13 @@ export interface Publicacion {
   propietario: string;
 }
 
+export interface PublicacionDatos {
+  titulo: string;
+  descripcion: string;
+  categoria: string;
+  modalidad: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -25,5 +31,24 @@ export class PublicacionesService {
 
   obtenerPublicaciones(): Observable<Publicacion[]> {
     return this.http.get<Publicacion[]>(this.apiUrl);
+  }
+
+  obtenerPublicacion(id: number): Observable<Publicacion> {
+    return this.http.get<Publicacion>(`${this.apiUrl}/${id}`);
+  }
+
+  crearPublicacion(datos: PublicacionDatos): Observable<any> {
+    return this.http.post(this.apiUrl, datos);
+  }
+
+  editarPublicacion(
+    id: number,
+    datos: PublicacionDatos
+  ): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${id}`, datos);
+  }
+
+  cancelarPublicacion(id: number): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/${id}/cancelar`, {});
   }
 }

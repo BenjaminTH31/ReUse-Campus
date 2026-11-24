@@ -1,4 +1,3 @@
-
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
@@ -34,6 +33,10 @@ export class AuthService {
   usuarioActual$ = this.usuarioSubject.asObservable();
 
   constructor(private http: HttpClient) {}
+
+  get usuarioActual(): Usuario | null {
+    return this.usuarioSubject.value;
+  }
 
   registrar(datos: {
     nombre: string;

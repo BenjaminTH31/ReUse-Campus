@@ -1,0 +1,36 @@
+<section class="contenedor">
+  <h1>Mis solicitudes</h1>
+  <p>Consulta el estado de las solicitudes que has enviado.</p>
+
+  @if (mensaje) {
+    <p class="mensaje">{{ mensaje }}</p>
+  }
+
+  @if (error) {
+    <p class="error">{{ error }}</p>
+  }
+
+  @if (cargando) {
+    <p>Cargando solicitudes...</p>
+  } @else if (solicitudes.length === 0) {
+    <p>Todavía no has enviado solicitudes.</p>
+  } @else {
+    @for (solicitud of solicitudes; track solicitud.id) {
+      <article class="tarjeta">
+        <h2>{{ solicitud.titulo || 'Publicación solicitada' }}</h2>
+        <p><strong>Mensaje:</strong> {{ solicitud.mensaje }}</p>
+        <p><strong>Fecha:</strong>
+          {{ solicitud.fechaSolicitud | date:'dd/MM/yyyy HH:mm' }}
+        </p>
+        <p><strong>Estado:</strong> {{ solicitud.estado }}</p>
+
+        @if (solicitud.estado === 'PENDIENTE') {
+          <button class="boton"
+            (click)="cancelar(solicitud.id)">
+            Cancelar solicitud
+          </button>
+        }
+      </article>
+    }
+  }
+</section>
