@@ -1,0 +1,38 @@
+
+<section class="catalogo">
+  <div class="catalogo-encabezado">
+    <span class="etiqueta">REUTILIZA Y COMPARTE</span>
+    <h1>Publicaciones</h1>
+    <p>Encuentra productos compartidos por nuestra comunidad.</p>
+  </div>
+
+  @if (cargando) {
+    <p class="estado-mensaje">Cargando publicaciones...</p>
+  } @else if (error) {
+    <div class="mensaje-error">{{ error }}</div>
+    <button class="btn-principal" (click)="cargarPublicaciones()">
+      Reintentar
+    </button>
+  } @else if (publicaciones.length === 0) {
+    <p class="estado-mensaje">Todavía no hay publicaciones disponibles.</p>
+  } @else {
+    <div class="publicaciones-grid">
+      @for (publicacion of publicaciones; track publicacion.id) {
+        <article class="tarjeta-publicacion">
+          <span class="estado">{{ publicacion.estado }}</span>
+
+          <span class="categoria">{{ publicacion.categoria }}</span>
+
+          <h2>{{ publicacion.titulo }}</h2>
+
+          <p>{{ publicacion.descripcion }}</p>
+
+          <div class="datos-publicacion">
+            <span>Modalidad: {{ publicacion.modalidad }}</span>
+            <span>Publicado por: {{ publicacion.propietario }}</span>
+          </div>
+        </article>
+      }
+    </div>
+  }
+</section>

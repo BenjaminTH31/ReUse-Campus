@@ -1,1 +1,253 @@
-/* You can add global styles to this file, and also import other style files */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f7faf8;
+  color: #26332b;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.hero {
+  min-height: 440px;
+  padding: 80px 10%;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(120deg, #e5f5e9, #f7faf8);
+}
+
+.hero-contenido {
+  max-width: 720px;
+}
+
+.etiqueta {
+  color: #16834a;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.hero h1 {
+  max-width: 700px;
+  margin: 20px 0;
+  font-size: clamp(36px, 5vw, 54px);
+  line-height: 1.12;
+}
+
+.hero p,
+.catalogo-encabezado p {
+  color: #66736a;
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+.acciones {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 30px;
+}
+
+.btn-principal,
+.btn-secundario {
+  display: inline-block;
+  padding: 13px 20px;
+  border-radius: 8px;
+  border: 1px solid #16834a;
+  text-decoration: none;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+}
+
+.btn-principal {
+  background: #16834a;
+  color: white;
+}
+
+.btn-principal:hover {
+  background: #116b3b;
+}
+
+.btn-secundario {
+  color: #16834a;
+  background: white;
+}
+
+.beneficios,
+.catalogo {
+  padding: 65px 8%;
+}
+
+.beneficios h2,
+.catalogo-encabezado h1 {
+  margin-top: 10px;
+  font-size: 32px;
+}
+
+.beneficios-grid,
+.publicaciones-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 22px;
+  margin-top: 30px;
+}
+
+.beneficio,
+.tarjeta-publicacion {
+  padding: 25px;
+  border: 1px solid #e5eae6;
+  border-radius: 12px;
+  background: white;
+}
+
+.beneficio > span {
+  color: #16834a;
+  font-weight: 800;
+}
+
+.beneficio p,
+.tarjeta-publicacion p {
+  color: #66736a;
+  line-height: 1.6;
+}
+
+.formulario-contenedor {
+  min-height: 650px;
+  padding: 60px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.formulario {
+  width: 100%;
+  max-width: 440px;
+  padding: 35px;
+  background: white;
+  border: 1px solid #e5eae6;
+  border-radius: 14px;
+}
+
+.formulario h1 {
+  margin-top: 0;
+}
+
+.formulario > p {
+  color: #66736a;
+}
+
+.formulario form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 25px;
+}
+
+.formulario label {
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.formulario input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #d5ddd7;
+  border-radius: 7px;
+  margin-bottom: 8px;
+}
+
+.formulario input:focus {
+  outline: 2px solid #a5d6b5;
+  border-color: #16834a;
+}
+
+.btn-ancho {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.btn-principal:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.texto-enlace {
+  margin-top: 22px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.texto-enlace a {
+  color: #16834a;
+  font-weight: 700;
+}
+
+.mensaje-error {
+  padding: 12px;
+  margin: 15px 0;
+  border-radius: 7px;
+  background: #fdecec;
+  color: #a52828;
+  font-size: 14px;
+}
+
+.catalogo-encabezado {
+  margin-bottom: 35px;
+}
+
+.tarjeta-publicacion h2 {
+  margin: 14px 0 8px;
+}
+
+.estado,
+.categoria {
+  display: inline-block;
+  margin-right: 7px;
+  padding: 5px 9px;
+  border-radius: 20px;
+  background: #e5f5e9;
+  color: #16834a;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.datos-publicacion {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #e5eae6;
+  color: #66736a;
+  font-size: 13px;
+}
+
+.estado-mensaje {
+  padding: 25px;
+  color: #66736a;
+  background: white;
+  border-radius: 10px;
+}
+
+@media (max-width: 600px) {
+  .hero {
+    padding: 60px 7%;
+  }
+
+  .beneficios,
+  .catalogo {
+    padding: 45px 6%;
+  }
+
+  .formulario {
+    padding: 25px;
+  }
+}
